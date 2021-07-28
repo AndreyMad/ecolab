@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  position: relative;
+  width: 100%;
+  max-width: 1920px;
+  height: 80px;
+  justify-content: space-between;
+  padding: 10px 50px;
+  align-items: center;
+  margin: 0px auto;
+  box-shadow: 0px 8px 16px rgba(17, 17, 17, 0.04);
+  margin-bottom: 50px;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+.wrapper > span {
+  margin-left: 20px;
+}
+.logoutBtn {
+  border: none;
+  background: none;
+  transition: 300ms;
+}
+.logoutBtn:hover {
+  transition: 300ms;
+  color: rgb(148, 145, 145);
+  cursor: pointer;
+}
