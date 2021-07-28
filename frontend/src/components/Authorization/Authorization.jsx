@@ -10,42 +10,26 @@ import "react-notifications/lib/notifications.css";
 import * as EmailValidator from "email-validator";
 import * as authOperations from "../../redux/Auth/authOperations";
 import * as Selectors from '../../redux/Selectors'
-
+import ecolabLogo from '../../assets/img/ecolabLogo.png'
 
 class Authorization extends Component {
   state = {
-    email: "",
-    password: "",
-    userName: "",
-    isAdmin: false,
-    isAuthorization: true,
+    login: "",
+    password: ""
   };
 
   handleChange = ({ target }) => {
     this.setState({ [target.id]: target.value });
   };
 
-  toggleLogin = (e) => {
-    e.preventDefault();
-    this.setState((prevState) => ({
-      email: "",
-      password: "",
-      userName: "",
-      isAuthorization: !prevState.isAuthorization,
-    }));
-  };
-  checkboxToggle = () => {
-    this.setState((prevState) => ({
-      isAdmin: !prevState.isAdmin,
-    }));
-  };
+
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { login, registration  } = this.props;
-    const { isAuthorization, email, password, userName, isAdmin } = this.state;
-    if (!EmailValidator.validate(email)) {
-      return NotificationManager.warning("", "Check email", 2000);
+    const { authorization  } = this.props;
+    const { login, password} = this.state;
+    if (!login) {
+      return NotificationManager.warning("", "Check login", 2000);
     }
     if (password.length < 5) {
           return NotificationManager.warning(
@@ -55,36 +39,29 @@ class Authorization extends Component {
           );
         }
 
-      
-    if (!isAuthorization) {
-      if (!userName) {
-        return NotificationManager.warning("", "Check user name", 2000);
-      }
-      return  registration({ email, password, userName, isAdmin });
-    } 
-    login({ email, password });
+      authorization({ login, password });
   };
 
   render() {
-    const { isAuthorization, email, password, userName, isAdmin } = this.state;
-    const {isAuth} =this.props
+    const {  login, password } = this.state;
     return (
-      <>{!isAuth? <>
-        {isAuthorization ? (
+      <>
+   
+    <img className={style.logo} src={ecolabLogo} alt='only logo'></img>
           <form
             className={style.form}
             onSubmit={this.handleSubmit}
             autoComplete="off"
           >
-            <h2>Sign In</h2>
+            <h2>Авторизация</h2>
             <div>
               <TextField
                 autoComplete="nope"
-                value={email}
+                value={login}
                 onChange={this.handleChange}
                 className={style.input}
-                id="email"
-                label="Email"
+                id="login"
+                label="Login"
               />
               <TextField
                 autoComplete="new-password"
@@ -97,75 +74,13 @@ class Authorization extends Component {
               />
             </div>
             <button className={style.submitBtn} type="submit">
-              Sign in
+             Войти
             </button>
-            <p>Not register yet? </p>
-            <button
-              type="button"
-              onClick={this.toggleLogin}
-              className={style.switchBtn}
-            >
-              Register
-            </button>
+    
           </form>
-        ) : (
-          <form
-            onSubmit={this.handleSubmit}
-            className={style.form}
-            noValidate
-            autoComplete="off"
-          >
-            <h2>Sign Up</h2>
-            <div>
-              <TextField
-                onChange={this.handleChange}
-                value={userName}
-                className={style.input}
-                id="userName"
-                label="Username"
-              />
-              <TextField
-                onChange={this.handleChange}
-                value={email}
-                className={style.input}
-                id="email"
-                label="Email"
-              />
-              <TextField
-                onChange={this.handleChange}
-                value={password}
-                className={style.input}
-                type="password"
-                id="password"
-                label="Password"
-              />
-
-              <label className={style.checkboxLabel} htmlFor="isAdmin">
-                <input
-                  onChange={this.checkboxToggle}
-                  checked={isAdmin}
-                  type="checkbox"
-                  id="isAdmin"
-                  className={style.checkbox}
-                ></input>
-                Is admin?
-              </label>
-            </div>
-            <button className={style.submitBtn} type="submit">
-              Sign Up
-            </button>
-            <p>Allready registered? </p>
-            <button
-              type="button"
-              onClick={this.toggleLogin}
-              className={style.switchBtn}
-            >
-              {isAuthorization ? "Registration" : "Authorization"}
-            </button>
-          </form>
-        )}
+       
         <NotificationContainer></NotificationContainer>
-     </> :null }
+      
       </>
     );
   }
@@ -174,8 +89,8 @@ const mDTP = (dispatch) => ({
   login: (user) => dispatch(authOperations.login(user)),
   registration: (user) => dispatch(authOperations.register(user)),
 });
-const mSTP = store => ({
-  isAuth: Selectors.getIsAuth(store),
-});
+// const mSTP = store => ({
+//   isAuth: Selectors.getIsAuth(store),
+// });
 
-export default connect(mSTP, mDTP)(Authorization);
+export default connect(null, mDTP)(Authorization);

@@ -7,16 +7,16 @@ const jsonParser = bodyParser.json();
 const fs = require("fs");
 const https = require("https");
 const http = require("http");
-const key = fs.readFileSync("cert/private.key");
-const cert = fs.readFileSync("cert/certificate.crt");
-const ca = fs.readFileSync("cert/ca_bundle.crt");
+// const key = fs.readFileSync("cert/private.key");
+// const cert = fs.readFileSync("cert/certificate.crt");
+// const ca = fs.readFileSync("cert/ca_bundle.crt");
 const config = require("../config");
 const itopRouter =require('./itop/itopRouter')
-const options = {
-  key: key,
-  cert: cert,
-  ca: ca,
-};
+// const options = {
+//   key: key,
+//   cert: cert,
+//   ca: ca,
+// };
 
 
 // const  httpsServer = https.createServer(options, app);
